@@ -10,15 +10,15 @@ using System.Windows.Shapes;
 using BaseLib;
 using BaseLib.HelpingClass;
 
-namespace Lib.String
+namespace Lib.Time
 {
-    public class UIPageString : UIBaseEl
+    class UIPageTime : UIBaseEl
     {
-        public UIPageString(AbstrPageEl pEl)
-            : base(60)
+        public UIPageTime(AbstrPageEl pEl)
+            : base(47)
         {
-            PageString ps = (PageString)pEl;
-            SetID (PageString.ID);
+            PageTime pt = (PageTime)pEl;
+            SetID(PageTime.ID);
 
             // Интерфейс для настройки позиции
             Label lbl_pos = new Label();
@@ -26,8 +26,10 @@ namespace Lib.String
             TextBox tbY = new TextBox();
 
             lbl_pos.Content = "Позиция";
-            tbX.Text = ps.X.ToString();
-            tbY.Text = ps.Y.ToString();
+            lbl_pos.VerticalAlignment = VerticalAlignment.Center;
+
+            tbX.Text = pt.X.ToString();
+            tbY.Text = pt.Y.ToString();
 
             tbX.MaxLength = 3;
             tbY.MaxLength = 3;
@@ -44,35 +46,49 @@ namespace Lib.String
             //
 
             // Цвет
+
             UIAcolorBox clrBox = new UIAcolorBox(
-                ps.TextColor.GetColor());
+                pt.TextColor.GetColor());
+            //
 
             // Размер
             Label lbl_size = new Label();
             TextBox tbS = new TextBox();
 
             lbl_size.Content = "Размер";
-            tbS.Text = ps.Size.ToString();
+            lbl_size.VerticalAlignment = VerticalAlignment.Center;
+
+            tbS.Text = pt.Size.ToString();
 
             tbS.Width = 25;
             tbS.Height = 23;
             //
 
-            // Текст
-            TextBox tbT = new TextBox();
+            // Флаги
+            StackPanel spFlasgs = new StackPanel();
 
-            tbT.Height = 23;
-            tbT.Text = ps.Data;
+            CheckBox cbSecond = new CheckBox();
+            CheckBox cbMinut = new CheckBox();
+            CheckBox cbHour = new CheckBox();
 
-            DockPanel.SetDock(tbT, Dock.Bottom);
+            cbSecond.IsChecked = pt.Second;
+            cbMinut.IsChecked = pt.Minute;
+            cbHour.IsChecked = pt.Hour;
+
+            cbSecond.Content = "сек";
+            cbMinut.Content = "мин";
+            cbHour.Content = "час";
+
+            spFlasgs.Children.Add(cbSecond);
+            spFlasgs.Children.Add(cbMinut);
+            spFlasgs.Children.Add(cbHour);
             //
 
             //
+
             labl_ID.Content = ID.ToString();
             //
-
-            Container.Children.Add(tbT);
-
+            
             Container.Children.Add(lbl_pos);
             Container.Children.Add(tbX);
             Container.Children.Add(
@@ -90,28 +106,43 @@ namespace Lib.String
             Container.Children.Add(lbl_size);
             Container.Children.Add(tbS);
 
+            Container.Children.Add(
+                UIGenerateHelping.NewGridSplitter(10, Container.Background));
+
+            Container.Children.Add(spFlasgs);
+
             clrBox.Uid = "clrBox";
             tbX.Uid = "tbX";
             tbY.Uid = "tbY";
             tbS.Uid = "tbS";
-            tbT.Uid = "tbT";
+            spFlasgs.Uid = "spF";
+            cbSecond.Uid = "cbS";
+            cbMinut.Uid = "cbM";
+            cbHour.Uid = "cbH";
         }
-
-        public override AbstrPageEl CompileElement()
+        public override AbstrPageEl CompileElement() 
         {
             int id = 0;
-            string dt = "";
+            bool sec = false;
+            bool min = false;
+            bool hour = false;
             AColor clr = AColors.WHITE;
             int px = 0;
             int py = 0;
             int sz = 0;
+            
+
 
             foreach (UIElement ch in Container.Children) 
             {
                 switch (ch.Uid) 
                 {
-                    case "tbT":
-                        dt = ((TextBox)ch).Text;
+                    case "spF":
+                        StackPanel sp = (StackPanel)ch;
+
+                        sec = (bool)((CheckBox)sp.Children[0]).IsChecked;
+                        min = (bool)((CheckBox)sp.Children[1]).IsChecked;
+                        hour = (bool)((CheckBox)sp.Children[2]).IsChecked;
                         break;
 
                     case "tbS":
@@ -120,25 +151,22 @@ namespace Lib.String
                         else
                             sz = 0;
                         break;
-
                     case "tbY":
                         if (int.TryParse(((TextBox)ch).Text, out py))
                             py = (py & byte.MaxValue);
                         else
                             py = 0;
                         break;
-
                     case "tbX":
                         if (int.TryParse(((TextBox)ch).Text, out px))
                             px = (px & byte.MaxValue);
                         else
                             px = 0;
                         break;
-
                     case "clrBox":
                         try
-                        { clr = new AColor(((UIAcolorBox)ch).GeBoxColor()); }
-                        catch 
+                        { clr = new AColor((ch as UIAcolorBox).GeBoxColor()); }
+                        catch
                         { }
                         break;
                     case "lblID":
@@ -148,14 +176,16 @@ namespace Lib.String
                         break;
                 }
             }
-            AbstrPageEl p_out;
 
-            p_out = new PageString(
+            AbstrPageEl p_out = new PageTime(
                 (byte)px, (byte)py, 
                 clr, 
-                (byte)sz,
-                dt);
-            
+                (byte)sz);
+
+            ((PageTime)p_out).Second = sec;
+            ((PageTime)p_out).Minute = min;
+            ((PageTime)p_out).Hour = hour;
+
             return p_out;
         }
     }

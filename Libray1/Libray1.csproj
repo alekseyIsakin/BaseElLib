@@ -31,9 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BaseElementsLib">
-      <HintPath>..\..\kurs\BaseElementsLib\BaseElementsLib\bin\Release\BaseElementsLib.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -47,19 +44,30 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExternalString.cs" />
+    <Compile Include="ExternalBaseLib.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="String\PageString.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="String\PELCenterXMLLoaders.cs">
+    <Compile Include="String\StringXMLLoaders.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="String\PELCenterXMLWriters.cs">
+    <Compile Include="String\StringXMLWriters.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="String\UIPageString.cs" />
+    <Compile Include="Time\PageTime.cs" />
+    <Compile Include="Time\TimeXMLLoaders.cs" />
+    <Compile Include="Time\TimeXMLWriters.cs" />
+    <Compile Include="Time\UIPageTime.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BaseElementsLib\BaseElementsLib\BaseElementsLib.csproj">
+      <Project>{630b22f5-3f3e-4faa-bb07-b1abc619369d}</Project>
+      <Name>BaseElementsLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
