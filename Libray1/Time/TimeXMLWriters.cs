@@ -6,16 +6,14 @@ using System.Xml;
 
 using BaseLib;
 using BaseLib.Xml;
-using BaseLib.HelpingClass;
 
-namespace Lib.String
+namespace Lib.Time
 {
-    public static partial class StringXmlBehavior
+    public static partial class TimeXmlBehavior
     {
-        static public XmlElement WritePageStringToXml(AbstrPageEl pEl, XmlDocument xdd)
+        static public XmlElement WritePageTimeToXml(AbstrPageEl pEl, XmlDocument xdd)
         {
-            PageString ps = (PageString)pEl; 
-
+            PageTime pt = (PageTime)pEl;
             // Описание элемента
             var ndPageEl = xdd.CreateElement(
                 (XMLDefines.XMLTag.PageEl).ToString());
@@ -23,7 +21,7 @@ namespace Lib.String
             var attrTypeEl = xdd.CreateAttribute(
                 XMLDefines.XMLBaseElAttr.TypeEl.ToString());
 
-            attrTypeEl.Value = ((int)ps.GetTypeEl()).ToString();
+            attrTypeEl.Value = ((int)pt.GetTypeEl()).ToString();
 
             ndPageEl.Attributes.Append(attrTypeEl);
 
@@ -36,8 +34,8 @@ namespace Lib.String
             var attrPosY = xdd.CreateAttribute(
                 XMLDefines.XMLBaseElAttr.PosY.ToString());
 
-            attrPosX.Value = ps.X.ToString();
-            attrPosY.Value = ps.Y.ToString();
+            attrPosX.Value = pt.X.ToString();
+            attrPosY.Value = pt.Y.ToString();
 
             ndPos.Attributes.Append(attrPosX);
             ndPos.Attributes.Append(attrPosY);
@@ -49,7 +47,7 @@ namespace Lib.String
             var attrClr = xdd.CreateAttribute(
                 XMLDefines.XMLBaseElAttr.ColorValue.ToString());
 
-            attrClr.Value = ps.TextColor.ToHex();
+            attrClr.Value = pt.TextColor.ToHex();
 
             ndClr.Attributes.Append(attrClr);
 
@@ -60,20 +58,22 @@ namespace Lib.String
             var attrSz = xdd.CreateAttribute(
                 XMLDefines.XMLBaseElAttr.SizeValue.ToString());
 
-            attrSz.Value = ps.Size.ToString();
+            attrSz.Value = pt.Size.ToString();
 
             ndSz.Attributes.Append(attrSz);
 
-            // Текст
+            // Данные
             var ndDt = xdd.CreateElement(
                 XMLDefines.XMLBaseElTag.Data.ToString());
 
-            var attrDt = xdd.CreateAttribute(
+            var attrSec = xdd.CreateAttribute(
                 XMLDefines.XMLBaseElAttr.Data.ToString());
 
-            attrDt.Value = ps.Data;
+            attrSec.Value = pt.Second ? "1" : "0";
+            attrSec.Value += pt.Minute ? "1" : "0";
+            attrSec.Value += pt.Hour ? "1" : "0";
 
-            ndDt.Attributes.Append(attrDt);
+            ndDt.Attributes.Append(attrSec);
 
 
             //
