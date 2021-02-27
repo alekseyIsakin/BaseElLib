@@ -12,13 +12,13 @@ using BaseLib.HelpingClass;
 
 namespace Lib.String
 {
-    class UIPageString : UIBaseEl
+    public class UIPageString : UIBaseEl
     {
         public UIPageString(AbstrPageEl pEl)
             : base(60)
         {
             PageString ps = (PageString)pEl;
-            SetID (ps.ID);
+            SetID (PageString.ID);
 
             // Интерфейс для настройки позиции
             Label lbl_pos = new Label();
@@ -155,7 +155,6 @@ namespace Lib.String
                 clr, 
                 (byte)sz,
                 dt);
-            p_out.SetID(id);
             
             return p_out;
         }

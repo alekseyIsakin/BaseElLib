@@ -10,9 +10,9 @@ using BaseLib.HelpingClass;
 
 namespace Lib.String
 {
-    public static partial class PageElCenter
+    public static partial class XmlBehavior
     {
-        static private AbstrPageEl ReadLikePageString(XmlNode nd_el)
+        static public AbstrPageEl ReadXMLPageString(XmlNode nd_el)
         {
             PageEl out_pageEl = new PageEl();
             string pos_x = "0", pos_y = "0",

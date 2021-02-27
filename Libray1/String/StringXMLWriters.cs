@@ -10,9 +10,9 @@ using BaseLib.HelpingClass;
 
 namespace Lib.String
 {
-    public static partial class PageElCenter
+    public static partial class XmlBehavior
     {
-        static private XmlElement XmlElFromPageString(AbstrPageEl pEl, XmlDocument xdd)
+        static public XmlElement WritePageStringToXml(AbstrPageEl pEl, XmlDocument xdd)
         {
             PageString ps = (PageString)pEl; 
 

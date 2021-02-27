@@ -8,22 +8,22 @@ using BaseLib.HelpingClass;
 
 namespace Lib.String
 {
-    class PageString : PageEl
+    public class PageString : PageEl
     {
+        public new const byte ID = 65;
+        public new const string Name = "String";
         public override byte GetTypeEl()
-        { return 65; }
+        { return ID; }
+        public override string GetNameEl()
+        { return Name; }
+
 
         public AColor TextColor;
         public byte Size;
-
         public string Data;
 
-        public PageString()
-            : this(0, 0, AColors.WHITE, 5, "string")
+        public PageString() : this(0, 0, AColors.WHITE, 5, "string")
         { }
-        
-        public override void SetID(int id)
-        { ID = id; }
 
         public PageString(byte x, byte y, AColor clr, byte sz, string str)
             : base(x, y)
@@ -56,4 +56,5 @@ namespace Lib.String
             return lout;
         }
     }
+
 }
